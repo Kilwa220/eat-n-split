@@ -1,23 +1,32 @@
 import { useState } from "react"
 import Button from "./Button"
+import Spliter from "./Spliter"
 
 
-const Friend = ({ name, image, diff, id, openFriendId, setOpenFriendId}) => {
+// const AddFriend = () => {
+//     return (
+//         <h1>hello from add friend</h1>
+//     )
+// }
+
+const Friend = ({ name, image, diff, id, openFriend, setOpenFriend}) => {
+    const activeStyle = (id === openFriend.id) 
+    ? 'rounded-2xl shadow bg-white'
+    : ''
     return (
-        <li>
-            <img src={image} alt={name}/>
-            <div className="friend-info">
-                <h3>{name}</h3>
+        <li  className={'flex items-center gap-[10px] w-[350px] max-w-full p-3 hover:shadow hover:rounded-2xl hover:bg-white transition cursor-pointer ' + activeStyle} >
+            <img className="rounded-full h-[50px] max-w-full" src={image} alt={name}/>
+            <div className="friend-info mr-auto text-[13px]">
+                <h3 className="text-blue-500 font-medium text-[18px]">{name}</h3>
                 {diff === 0 
-                 ? (<p>You and {name} are even</p>)
+                 ? (<p className="">You and {name} are even</p>)
                  : (diff > 0) 
-                 ? (<p>{name} owes you {diff}$</p>) 
-                 : (<p>You owe {name} {Math.abs(diff)}$</p>)}
+                 ? (<p className="text-green-500">{name} owes you {diff}$</p>) 
+                 : (<p className="text-red-500">You owe {name} {Math.abs(diff)}$</p>)}
             </div>
-            
-            {openFriendId === id 
-            ? (<Button title="close" onClick={() => setOpenFriendId(0)}/>)
-            : (<Button title="select" onClick={() => setOpenFriendId(id)}/>)
+            {openFriend.id === id 
+            ? (<Button  title="close" onClick={() => setOpenFriend(0)}/>)
+            : (<Button  title="select" onClick={() => setOpenFriend({name: name, id: id})}/>)
             }
         </li>
     )
@@ -45,16 +54,19 @@ const Friends = () => {
         }
     ])
 
-    const [openFriendId, setOpenFriendId] = useState(0)
+    const [openFriend, setOpenFriend] = useState(0)
 
     return (
-        <ul>
+        <div className="flex flex-col items-center md:items-stretch  gap-[30px] mt-5 md:flex-row">
+        <ul className="flex flex-col gap-[10px]">
             {
                 friends.map((friend) => 
-                    (<Friend key={friend.id} id={friend.id} name={friend.name} image={friend.image} diff={friend.diff} openFriendId={openFriendId} setOpenFriendId={setOpenFriendId}/> )
+                    (<Friend key={friend.id} id={friend.id} name={friend.name} image={friend.image} diff={friend.diff} openFriend={openFriend} setOpenFriend={setOpenFriend}/> )
                 )
             }
         </ul>
+        {openFriend.id > 0 && (<Spliter openFriend={openFriend} setOpenFriend={setOpenFriend} friends={friends} setFriends={setFriends}/>)}
+        </div>
     )
 }
 
