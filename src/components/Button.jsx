@@ -1,7 +1,7 @@
 
-const Button = ({ title, onClick }) => {
+const Button = ({ title, onClick, type }) => {
     return (
-        <button className="pl-[18px] pr-[18px] pt-[5px] pb-[5px] bg-sky-400 rounded-sm text-white font-medium cursor-pointer" onClick={onClick}>{title}</button>
+        <button type={type} className="pl-[18px] pr-[18px] pt-[3px] pb-[3px] text-[15px] bg-sky-400 rounded-sm text-white font-medium cursor-pointer" onClick={onClick}>{title}</button>
     )
 }
 
